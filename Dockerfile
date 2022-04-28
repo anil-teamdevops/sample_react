@@ -30,7 +30,7 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 # Remove default nginx static assets
-RUN rm -rf ./* && apk del zgrep
+RUN rm -rf ./* && apk del xz-libs
 
 # Copy static assets from builder stage
 COPY --from=build /app/build .
