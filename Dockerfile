@@ -49,10 +49,12 @@ RUN apk add --update --no-cache nodejs npm && \
 	chown -R app-user:app-user /home/app-user
 
 WORKDIR /home/app-user
-USER	app-user
+
 
 COPY . .
-RUN chown -R app-user:app-user /home/app-user/*
+
 
 RUN npm install
+RUN chown -R app-user:app-user /home/app-user/*
+USER	app-user
 CMD [ "npm", "start" ]
