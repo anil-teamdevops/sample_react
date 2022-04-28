@@ -29,6 +29,12 @@ jobs:
         # Set the sonar.projectBaseDir analysis property
         projectBaseDir: # optional, default is .
 
+    - name: SonarQube Quality Gate check
+      uses: sonarsource/sonarqube-quality-gate-action@master
+      # Force to fail step after specific time
+      timeout-minutes: 5
+      env:
+       SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
