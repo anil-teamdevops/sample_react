@@ -77,6 +77,5 @@ jobs:
         app-name: demoacsanilappari
         images: '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
 
-              #anilsrepo.azurecr.io/my-image-name:latest
         
 
