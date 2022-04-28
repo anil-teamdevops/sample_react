@@ -51,10 +51,8 @@ RUN apk add --update --no-cache nodejs npm && \
 WORKDIR /home/app-user
 USER	app-user
 
-COPY package.json /app/package.json
-COPY package-lock.json /app/package-lock.json
-
 COPY . .
+RUN chown -R app-user:app-user /home/app-user/*
 
 RUN npm install
 CMD [ "npm", "start" ]
