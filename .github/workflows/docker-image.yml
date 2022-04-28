@@ -18,4 +18,4 @@ jobs:
       run: docker build . --file Dockerfile --tag my-image-name
       
     - name: test run
-      run: docker run --rm  my-image-name curl localhost
+      run: docker run -p 80:80 --name test1 my-image-name && curl localhost && docker rm -f test1 
