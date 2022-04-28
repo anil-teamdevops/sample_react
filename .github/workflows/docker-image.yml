@@ -74,6 +74,9 @@ jobs:
     - name: Azure WebApp Deployment
       uses: Azure/webapps-deploy@v2.2.3
       with: 
-        app-name: anilswebapp2
-        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest
+        app-name: demoacsanilappari
+        images: '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+
+              #anilsrepo.azurecr.io/my-image-name:latest
+        
 
