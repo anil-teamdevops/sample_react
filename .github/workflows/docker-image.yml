@@ -38,11 +38,14 @@ jobs:
     #    SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+      run: docker build . --file Dockerfile --tag myimage:latest
 
-    - uses: azure/container-scan@v0
-      with:
-        image-name: '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+    - uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
+      with: 
+        image-name: myimage:latest
+
+    - name: Tag the Docker image
+      run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
 
     - name: login to acr
       run: docker login -u '${{secrets.ACR_LOGIN_NAME}}' -p '${{secrets.ACR_PASSWORD}}' '${{secrets.ACR_LOGIN_SERVER}}'
