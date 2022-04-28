@@ -15,29 +15,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Official SonarQube Scan
-      # You may pin to the exact commit or the version. https://github.com/SonarSource/sonarqube-scan-action
-      # uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
-      uses: SonarSource/sonarqube-scan-action@v1.1.0
-      env:
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_SERVER_URL }}
-      with:
-        # Additional arguments to the sonar-scanner SONARQUBE_TOKEN SONARQUBE_SERVER_URL
-        args: > 
-          -Dsonar.projectKey=githubactions_test
-        # Set the sonar.projectBaseDir analysis property
-        projectBaseDir: # optional, default is .
 
-    - name: SonarQube Quality Gate check
-      uses: sonarsource/sonarqube-quality-gate-action@master
-      # Force to fail step after specific time
-      timeout-minutes: 5
-      env:
-       SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+    # - name: Official SonarQube Scan
+    #   # You may pin to the exact commit or the version. https://github.com/SonarSource/sonarqube-scan-action
+    #   # uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
+    #   uses: SonarSource/sonarqube-scan-action@v1.1.0
+    #   env:
+    #       SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+    #       SONAR_HOST_URL: ${{ secrets.SONARQUBE_SERVER_URL }}
+    #   with:
+    #     # Additional arguments to the sonar-scanner SONARQUBE_TOKEN SONARQUBE_SERVER_URL
+    #     args: > 
+    #       -Dsonar.projectKey=githubactions_test
+    #     # Set the sonar.projectBaseDir analysis property
+    #     projectBaseDir: # optional, default is .
+
+    # - name: SonarQube Quality Gate check
+    #   uses: sonarsource/sonarqube-quality-gate-action@master
+    #   # Force to fail step after specific time
+    #   timeout-minutes: 5
+    #   env:
+    #    SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+
+    - uses: azure/container-scan@v0
+      with:
+        image-name: '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
 
     - name: login to acr
       run: docker login -u '${{secrets.ACR_LOGIN_NAME}}' -p '${{secrets.ACR_PASSWORD}}' '${{secrets.ACR_LOGIN_SERVER}}'
