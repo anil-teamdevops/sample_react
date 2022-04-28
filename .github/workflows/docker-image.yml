@@ -75,7 +75,7 @@ jobs:
       uses: Azure/webapps-deploy@v2.2.3
       with: 
         app-name: demoacsanilappari
-        images: '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest
 
         
 
