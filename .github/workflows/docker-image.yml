@@ -37,7 +37,53 @@ jobs:
     #   timeout-minutes: 5
     #   env:
     #    SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-    
+
+# #################################    
+# ################################# 
+#     - name: CodeReady Dependency Analytics
+#   # You may pin to the exact commit or the version.
+#   # uses: redhat-actions/crda@b20b5ba04415ef7c44549749b031e60e8c1dd508
+#   uses: redhat-actions/crda@v1
+#   with:
+#     # Path to the directory containing the manifest_file.
+
+#     manifest_directory: # optional
+#     # Name (basename) of the manifest file to analyze. This file must exist in the manifest_directory.
+
+#     manifest_file: # optional
+#     # Command to use for dependencies installation instead of using the
+# default commands.
+
+#     deps_install_cmd: # optional
+#     # Name of the file to save the analysis report
+#     analysis_report_name: # optional, default is crda_analysis_report
+#     # Snyk token to be used to authenticate to the CRDA
+#     snyk_token: # optional
+#     # Existing CRDA key to identify the existing user
+#     crda_key: # optional
+#     # Github token to upload sarif file to the GitHub
+#     github_token: # optional, default is ${{ github.token }}
+#     # Upload the generated sarif file, by default it is set to "true".
+# If you don't want to upload sarif file set this input to "false"
+
+#     upload_sarif: # optional, default is true
+#     # CRDA collects anonymous usage data, and is disabled by default.
+# If you want this behaviour set this to "true"
+
+#     consent_telemetry: # optional, default is false
+#     # Fail the workflow if vulnerability is found in the project.
+# This will lead to workflow failure and sarif file would not be uploaded.
+# To set failure when vulnerability severity level is either "error" or "warning" set this input to "warning".
+# By default it is set to fail when severity level is "error",
+# or if you don't want to fail the action set this input to "never"
+
+#     fail_on: # optional, default is error
+# #################################    
+# ################################# 
+
+
+
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag myimage:latest
 
@@ -63,5 +109,5 @@ jobs:
       uses: Azure/webapps-deploy@v2.2.3
       with: 
         app-name: github-actions-test-anilappari
-        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:$(${{env.TAG}})
+        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest
 
