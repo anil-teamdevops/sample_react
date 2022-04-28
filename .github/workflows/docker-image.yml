@@ -62,5 +62,5 @@ jobs:
       uses: Azure/webapps-deploy@v2.2.3
       with: 
         app-name: github-actions-test-anilappari
-        images: '${{secrets.ACR_LOGIN_SERVER}}/my-image-name:$(git log -1 --format='%h)'
+        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:$(git log -1 --format='%h)
 
