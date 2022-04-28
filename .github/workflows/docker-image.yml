@@ -45,19 +45,14 @@ jobs:
         image-name: myimage:latest
 
     - name: Tag the Docker image
-      run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+      run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(git log -1 --format='%h)
 
     - name: login to acr
       run: docker login -u '${{secrets.ACR_LOGIN_NAME}}' -p '${{secrets.ACR_PASSWORD}}' '${{secrets.ACR_LOGIN_SERVER}}'
 
     - name: push to ecr
-      run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+      run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(git log -1 --format='%h)
 
-
-
-  DEPLOY_TO_AZURE_APP_SERVICE:
-    runs-on: ubuntu-latest
-    steps:
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -67,5 +62,5 @@ jobs:
       uses: Azure/webapps-deploy@v2.2.3
       with: 
         app-name: github-actions-test-anilappari
-        images: '${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest'
+        images: '${{secrets.ACR_LOGIN_SERVER}}/my-image-name:$(git log -1 --format='%h)'
 
