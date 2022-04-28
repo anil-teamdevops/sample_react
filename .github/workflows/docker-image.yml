@@ -54,6 +54,9 @@ jobs:
       run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
 
 
+
+  DEPLOY_TO_AZURE_APP_SERVICE:
+    runs-on: ubuntu-latest
     - name: Azure Login
       uses: azure/login@v1
       with:
