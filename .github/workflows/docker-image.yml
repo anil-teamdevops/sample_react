@@ -87,6 +87,9 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag myimage:latest
 
+    - name: testrun
+      run: docker run -d --name test myimage:latest && curl $(docker inspect test --format="{{.NetworkSettings.Networks.bridge.IPAddress}}" )
+
     # - uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
     #   with: 
     #     image-name: myimage:latest
