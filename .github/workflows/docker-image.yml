@@ -29,6 +29,15 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDS_SP }}
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: '${{secrets.ACR_LOGIN_NAME}}'
+        # Container registry password
+        password: '${{secrets.ACR_PASSWORD}}'
+        # Container registry server url
+        login-server: '${{secrets.ACR_LOGIN_SERVER}}' # default is https://index.docker.io/v1/
 
     - name: Azure WebApp Deployment
       uses: Azure/webapps-deploy@v2.2.3
