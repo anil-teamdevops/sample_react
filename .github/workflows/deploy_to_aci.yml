@@ -28,7 +28,7 @@ jobs:
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
-            dns-name-label: ${{ secrets.RESOURCE_GROUP }}aci-anils
+            dns-name-label: sample-aci-anils
             image: ${{ secrets.ACR_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
             registry-login-server: ${{ secrets.ACR_LOGIN_SERVER }}
             registry-username: ${{ secrets.ACR_LOGIN_NAME }}
