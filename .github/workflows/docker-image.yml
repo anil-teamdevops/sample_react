@@ -38,44 +38,57 @@ jobs:
     #   env:
     #    SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
-
-
-
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag myimage:latest
-
-    - name: testrun
-      run: docker run -d --name test myimage:latest && curl $(docker inspect test --format="{{.NetworkSettings.Networks.bridge.IPAddress}}" ) && docker rm -f test
-
-    # - uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
-    #   with: 
-    #     image-name: myimage:latest
-
-    - name: Tag the Docker image
-      run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(${{env.TAG}})
-
-    - name: Tagging the Docker image
-      run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
-
-    - name: login to acr
-      run: docker login -u '${{secrets.ACR_LOGIN_NAME}}' -p '${{secrets.ACR_PASSWORD}}' '${{secrets.ACR_LOGIN_SERVER}}'
-
-    - name: push to ecr
-      run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(${{env.TAG}})
-
-    - name: push2 to ecr
-      run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
-
-    - name: Azure Login
-      uses: azure/login@v1
+########################Sonar cloud
+    - name: SonarCloud Scan
+      # You may pin to the exact commit or the version.
+      # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+      uses: SonarSource/sonarcloud-github-action@v1.6
+      env:
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARCLOUD_SERVER_URL }}
       with:
-        creds: ${{ secrets.AZURE_CREDS_SP }}
+        # Additional arguments to the sonarcloud scanner
+        args: > 
+          -Dsonar.projectKey=githubactions_test
+        # Set the sonar.projectBaseDir analysis property
+        projectBaseDir: # optional, default is .
+#################################
 
-    - name: Azure WebApp Deployment
-      uses: Azure/webapps-deploy@v2.2.3
-      with: 
-        app-name: demoacsanilappari
-        images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag myimage:latest
+
+    # - name: testrun
+    #   run: docker run -d --name test myimage:latest && curl $(docker inspect test --format="{{.NetworkSettings.Networks.bridge.IPAddress}}" ) && docker rm -f test
+
+    # # - uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
+    # #   with: 
+    # #     image-name: myimage:latest
+
+    # - name: Tag the Docker image
+    #   run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(${{env.TAG}})
+
+    # - name: Tagging the Docker image
+    #   run: docker image tag myimage '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+
+    # - name: login to acr
+    #   run: docker login -u '${{secrets.ACR_LOGIN_NAME}}' -p '${{secrets.ACR_PASSWORD}}' '${{secrets.ACR_LOGIN_SERVER}}'
+
+    # - name: push to ecr
+    #   run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:$(${{env.TAG}})
+
+    # - name: push2 to ecr
+    #   run: docker push '${{secrets.ACR_LOGIN_SERVER}}'/my-image-name:latest
+
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDS_SP }}
+
+    # - name: Azure WebApp Deployment
+    #   uses: Azure/webapps-deploy@v2.2.3
+    #   with: 
+    #     app-name: demoacsanilappari
+    #     images: ${{secrets.ACR_LOGIN_SERVER}}/my-image-name:latest
 
         
 
