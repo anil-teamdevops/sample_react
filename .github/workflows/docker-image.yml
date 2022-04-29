@@ -50,6 +50,7 @@ jobs:
         # Additional arguments to the sonarcloud scanner
         args: > 
           -Dsonar.projectKey=githubactions_test
+          -Dsonar.organization=anil-teamdevops
         # Set the sonar.projectBaseDir analysis property
         projectBaseDir: # optional, default is .
 #################################
